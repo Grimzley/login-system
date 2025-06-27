@@ -4,7 +4,8 @@ module.exports = {
     mode: 'development',
     entry: {
         index: './src/index.js',
-        login: './src/login.js'
+        login: './src/login.js',
+        edit: './src/edit.js'
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
