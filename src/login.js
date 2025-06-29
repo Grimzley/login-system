@@ -1,7 +1,6 @@
-import { db, colRef } from './index.js'
+import { colRef } from './index.js'
 import {
-    getFirestore, collection, getDocs,
-    addDoc, deleteDoc, doc
+    addDoc
 } from 'firebase/firestore'
 
 const loginForm = document.getElementById("login-form");
@@ -34,7 +33,7 @@ addUserForm.addEventListener('submit', (e) => {
     addDoc(colRef, {
         username: addUserForm.username.value,
         email: addUserForm.email.value,
-        password: addUserForm.password.value
+        password: addUserForm.password.value,
     }).then(() => {
         addUserForm.reset()
     })

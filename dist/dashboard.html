@@ -8,13 +8,28 @@
 </head>
 <body>
   <header>
-    <h1>Welcome!</h1>
+    <h1>Dashboard</h1>
   </header>
   <div class="container">
-    <h1>Good Morning!</h1>
-    
-    <form id="delete-form" class="auth-form">
-      <input type="text" name="id" placeholder="UserID" required/>
+    <button id="toggle-theme">🌙</button>
+
+    <div class="form-toggle">
+      <button id="show-edit">Edit</button>
+      <button id="show-delete">Delete</button>
+    </div>
+
+    <form id="edit-form" class="auth-form">
+      <h2>Edit Account</h2>
+      <input type="text" name="username" placeholder="Username"/>
+      <input type="email" name="email" placeholder="Email"/>
+      <input type="password" name="password" placeholder="Password"/>
+      <input type="text" name="id" placeholder="User ID" required />
+      <button type="submit">Update Account</button>
+    </form>
+
+    <form id="delete-form" class="auth-form hidden">
+      <h2>Delete Account</h2>
+      <input type="text" name="id" placeholder="User ID" required />
       <button type="submit">Delete Account</button>
     </form>
   </div>

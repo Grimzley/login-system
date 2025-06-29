@@ -1,7 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import {
-    getFirestore, collection, getDocs,
-    addDoc, deleteDoc, doc
+    getFirestore, collection
 } from 'firebase/firestore'
 
 // Firestore Database Setup
@@ -15,15 +14,5 @@ const firebaseConfig = {
 };
 initializeApp(firebaseConfig);
 
-// Get Users
 export const db = getFirestore();
 export const colRef = collection(db, 'users');
-getDocs(colRef).then((snapshot) => {
-    let users = []
-    snapshot.docs.forEach((doc) => {
-        users.push({...doc.data(), id: doc.id})
-    })
-    console.log(users) // delete later
-}).catch((err) => {
-    console.log(err.message)
-})
