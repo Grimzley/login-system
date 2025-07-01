@@ -1,7 +1,6 @@
-import { db } from './index.js'
-import {
-  deleteDoc, doc, updateDoc
-} from 'firebase/firestore'
+import { db, auth } from './index.js'
+import { deleteDoc, doc, updateDoc } from 'firebase/firestore'
+import { signOut } from 'firebase/auth'
 
 const editForm = document.getElementById("edit-form");
 const deleteForm = document.getElementById("delete-form");
@@ -23,27 +22,41 @@ toggleThemeBtn.onclick = () => {
   document.body.classList.toggle("dark");
 };
 
+// Logout of Account
+const logoutBtn = document.getElementById('logout')
+logoutBtn.addEventListener('click', () => {
+  signOut(auth).then(() => {
+    window.location.replace('./index.html')
+  }).catch((err) => {
+    console.log(err.message)
+  })
+})
+
 // Edit Account
-const editUserForm = document.querySelector('#edit-form')
-editUserForm.addEventListener('submit', (e) => {
+editForm.addEventListener('submit', (e) => {
   e.preventDefault()
-  const docRef = doc(db, 'users', editUserForm.id.value)
-  console.log("test")
+  let user = auth.currentUser
+  let uid = user.uid
+  const docRef = doc(db, 'users', uid)
   updateDoc(docRef, {
-    username: editUserForm.username.value,
-    email: editUserForm.email.value,
-    password: editUserForm.password.value
+    username: editForm.username.value,
   }).then(() => {
-    editUserForm.reset()
+    editForm.reset()
   })
 })
 
 // Delete Account
-const deleteUserForm = document.querySelector('#delete-form')
-deleteUserForm.addEventListener('submit', (e) => {
-    e.preventDefault()
-    const docRef = doc(db, 'users', deleteUserForm.id.value)
+const deleteBtn = document.getElementById('delete')
+deleteBtn.addEventListener('click', (e) => {
+  e.preventDefault()
+  let user = auth.currentUser
+  let uid = user.uid
+  user.delete().then(() => {
+    let docRef = doc(db, 'users', uid)
     deleteDoc(docRef).then(() => {
-        deleteUserForm.reset()
+      window.location.replace('./index.html')
     })
+  }).catch((err) => {
+    console.log(err.message)
+  })
 })

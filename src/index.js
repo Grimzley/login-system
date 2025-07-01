@@ -1,9 +1,7 @@
 import { initializeApp } from 'firebase/app'
-import {
-    getFirestore, collection
-} from 'firebase/firestore'
+import { getFirestore } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
 
-// Firestore Database Setup
 const firebaseConfig = {
   apiKey: "AIzaSyCGs3JuGAHhn1Fpr8ZgHKpwlVCtNZe0YMQ",
   authDomain: "login-system-397b5.firebaseapp.com",
@@ -13,6 +11,5 @@ const firebaseConfig = {
   appId: "1:509745472385:web:3e5650fbb2f5c591ffbe80"
 };
 initializeApp(firebaseConfig);
-
 export const db = getFirestore();
-export const colRef = collection(db, 'users');
+export const auth = getAuth();
