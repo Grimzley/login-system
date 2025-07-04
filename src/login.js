@@ -7,6 +7,8 @@ const signupForm = document.getElementById("signup-form");
 const showLoginBtn = document.getElementById("show-login");
 const showSignupBtn = document.getElementById("show-signup");
 const toggleThemeBtn = document.getElementById("toggle-theme");
+const loginFeedback = document.getElementById("login-feedback");
+const signupFeedback = document.getElementById("signup-feedback");
 
 showLoginBtn.onclick = () => {
   loginForm.classList.remove("hidden");
@@ -22,6 +24,21 @@ toggleThemeBtn.onclick = () => {
   document.body.classList.toggle("dark");
 };
 
+function getAuthError(code) {
+  switch (code) {
+    case "auth/invalid-credential":
+      return "Incorrect email or password.";
+    case "auth/invalid-email":
+      return "Please enter a valid email address.";
+    case "auth/email-already-in-use":
+      return "This email is already registered.";
+    case "auth/weak-password":
+      return "Password should be at least 6 characters."
+    default:
+      return "An error occurred. Please try again.";
+  }
+}
+
 // Login to Account
 loginForm.addEventListener('submit', (e) => {
   e.preventDefault()
@@ -30,7 +47,7 @@ loginForm.addEventListener('submit', (e) => {
   signInWithEmailAndPassword(auth, email, password).then(() => {
     window.location.replace("./dashboard.html")
   }).catch((err) => {
-    console.log(err.message)
+    loginFeedback.textContent = getAuthError(err.code)
     loginForm.reset()
   })
 })
@@ -51,7 +68,7 @@ signupForm.addEventListener('submit', (e) => {
     await setDoc(docRef, docData);
     window.location.replace("./dashboard.html")
   }).catch((err) => {
-    console.log(err.message)
+    signupFeedback.textContent = getAuthError(err.code)
     signupForm.reset()
   })
 })
