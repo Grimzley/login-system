@@ -2,15 +2,28 @@ import { db, auth } from './index.js'
 import { doc, setDoc } from 'firebase/firestore'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 
+const toggleThemeBtn = document.getElementById("toggle-theme");
 const loginForm = document.getElementById("login-form");
 const signupForm = document.getElementById("signup-form");
 const showLoginBtn = document.getElementById("show-login");
 const showSignupBtn = document.getElementById("show-signup");
-const toggleThemeBtn = document.getElementById("toggle-theme");
 const loginFeedback = document.getElementById("login-feedback");
 const signupFeedback = document.getElementById("signup-feedback");
 const loginSpinner = document.getElementById("login-spinner");
 const signupSpinner = document.getElementById("signup-spinner");
+
+document.addEventListener("DOMContentLoaded", () => {
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "dark") {
+    document.body.classList.add("dark");
+  }
+});
+
+toggleThemeBtn.onclick = () => {
+  document.body.classList.toggle("dark");
+  const theme = document.body.classList.contains("dark") ? "dark": "light";
+  localStorage.setItem("theme", theme);
+};
 
 showLoginBtn.onclick = () => {
   loginForm.classList.remove("hidden");
@@ -20,10 +33,6 @@ showLoginBtn.onclick = () => {
 showSignupBtn.onclick = () => {
   signupForm.classList.remove("hidden");
   loginForm.classList.add("hidden");
-};
-
-toggleThemeBtn.onclick = () => {
-  document.body.classList.toggle("dark");
 };
 
 function getAuthError(code) {

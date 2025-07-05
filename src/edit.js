@@ -2,11 +2,24 @@ import { db, auth } from './index.js'
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore'
 import { signOut } from 'firebase/auth'
 
+const toggleThemeBtn = document.getElementById("toggle-theme");
 const editForm = document.getElementById("edit-form");
 const deleteForm = document.getElementById("delete-form");
 const showEditBtn = document.getElementById("show-edit");
 const showDeleteBtn = document.getElementById("show-delete");
-const toggleThemeBtn = document.getElementById("toggle-theme");
+
+document.addEventListener("DOMContentLoaded", () => {
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "dark") {
+    document.body.classList.add("dark");
+  }
+});
+
+toggleThemeBtn.onclick = () => {
+  document.body.classList.toggle("dark");
+  const theme = document.body.classList.contains("dark") ? "dark": "light";
+  localStorage.setItem("theme", theme);
+};
 
 showEditBtn.onclick = () => {
   editForm.classList.remove("hidden");
@@ -16,10 +29,6 @@ showEditBtn.onclick = () => {
 showDeleteBtn.onclick = () => {
   deleteForm.classList.remove("hidden");
   editForm.classList.add("hidden");
-};
-
-toggleThemeBtn.onclick = () => {
-  document.body.classList.toggle("dark");
 };
 
 // Logout of Account
