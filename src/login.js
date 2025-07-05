@@ -9,6 +9,8 @@ const showSignupBtn = document.getElementById("show-signup");
 const toggleThemeBtn = document.getElementById("toggle-theme");
 const loginFeedback = document.getElementById("login-feedback");
 const signupFeedback = document.getElementById("signup-feedback");
+const loginSpinner = document.getElementById("login-spinner");
+const signupSpinner = document.getElementById("signup-spinner");
 
 showLoginBtn.onclick = () => {
   loginForm.classList.remove("hidden");
@@ -42,6 +44,8 @@ function getAuthError(code) {
 // Login to Account
 loginForm.addEventListener('submit', (e) => {
   e.preventDefault()
+  loginFeedback.textContent = ""
+  loginSpinner.classList.remove("hidden")
   let email = loginForm.email.value
   let password = loginForm.password.value
   signInWithEmailAndPassword(auth, email, password).then(() => {
@@ -49,12 +53,16 @@ loginForm.addEventListener('submit', (e) => {
   }).catch((err) => {
     loginFeedback.textContent = getAuthError(err.code)
     loginForm.reset()
+  }).finally(() => {
+    loginSpinner.classList.add("hidden");
   })
 })
 
 // Create Account
 signupForm.addEventListener('submit', (e) => {
   e.preventDefault()
+  signupFeedback.textContent = ""
+  signupSpinner.classList.remove("hidden")
   let username = signupForm.username.value
   let email = signupForm.email.value
   let password = signupForm.password.value
@@ -70,5 +78,7 @@ signupForm.addEventListener('submit', (e) => {
   }).catch((err) => {
     signupFeedback.textContent = getAuthError(err.code)
     signupForm.reset()
+  }).finally(() => {
+    signupSpinner.classList.add("hidden")
   })
 })
