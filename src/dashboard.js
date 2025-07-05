@@ -8,24 +8,15 @@ const deleteForm = document.getElementById("delete-form");
 const showEditBtn = document.getElementById("show-edit");
 const showDeleteBtn = document.getElementById("show-delete");
 
-document.addEventListener("DOMContentLoaded", () => {
-  const savedTheme = localStorage.getItem("theme");
-  if (savedTheme === "dark") {
-    document.body.classList.add("dark");
-  }
-});
-
 toggleThemeBtn.onclick = () => {
   document.body.classList.toggle("dark");
   const theme = document.body.classList.contains("dark") ? "dark": "light";
   localStorage.setItem("theme", theme);
 };
-
 showEditBtn.onclick = () => {
   editForm.classList.remove("hidden");
   deleteForm.classList.add("hidden");
 };
-
 showDeleteBtn.onclick = () => {
   deleteForm.classList.remove("hidden");
   editForm.classList.add("hidden");

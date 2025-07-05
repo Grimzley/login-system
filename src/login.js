@@ -12,24 +12,15 @@ const signupFeedback = document.getElementById("signup-feedback");
 const loginSpinner = document.getElementById("login-spinner");
 const signupSpinner = document.getElementById("signup-spinner");
 
-document.addEventListener("DOMContentLoaded", () => {
-  const savedTheme = localStorage.getItem("theme");
-  if (savedTheme === "dark") {
-    document.body.classList.add("dark");
-  }
-});
-
 toggleThemeBtn.onclick = () => {
   document.body.classList.toggle("dark");
   const theme = document.body.classList.contains("dark") ? "dark": "light";
   localStorage.setItem("theme", theme);
 };
-
 showLoginBtn.onclick = () => {
   loginForm.classList.remove("hidden");
   signupForm.classList.add("hidden");
 };
-
 showSignupBtn.onclick = () => {
   signupForm.classList.remove("hidden");
   loginForm.classList.add("hidden");

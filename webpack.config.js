@@ -5,7 +5,8 @@ module.exports = {
     entry: {
         index: './src/index.js',
         login: './src/login.js',
-        edit: './src/edit.js'
+        dashboard: './src/dashboard.js',
+        auth: './src/auth.js'
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
