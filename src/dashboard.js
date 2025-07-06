@@ -9,6 +9,7 @@ const deleteForm = document.getElementById("delete-form");
 const showEditBtn = document.getElementById("show-edit");
 const showDeleteBtn = document.getElementById("show-delete");
 const editSpinner = document.getElementById("edit-spinner");
+const deleteSpinner = document.getElementById("delete-spinner");
 
 toggleThemeBtn.onclick = () => {
   document.body.classList.toggle("dark");
@@ -35,17 +36,12 @@ userDataPromise.then((data) => {
   }
 }).catch((err) => {
   console.error("User not logged in or failed to fetch profile:", err)
-  window.location.replace('./index.html')
 });
 
 // Logout of Account
 const logoutBtn = document.getElementById('logout')
 logoutBtn.addEventListener('click', () => {
-  signOut(auth).then(() => {
-    window.location.replace('./index.html')
-  }).catch((err) => {
-    console.log(err.message)
-  })
+  signOut(auth)
 })
 
 // Edit Account
@@ -70,14 +66,13 @@ editForm.addEventListener('submit', (e) => {
 const deleteBtn = document.getElementById('delete')
 deleteBtn.addEventListener('click', (e) => {
   e.preventDefault()
+  deleteSpinner.classList.remove("hidden")
   let user = auth.currentUser
   let uid = user.uid
-  user.delete().then(() => {
-    let docRef = doc(db, 'users', uid)
-    deleteDoc(docRef).then(() => {
-      window.location.replace('./index.html')
-    })
-  }).catch((err) => {
-    console.log(err.message)
+  let docRef = doc(db, 'users', uid)
+  deleteDoc(docRef).then(() => {
+    user.delete()
+  }).finally(() => {
+    deleteSpinner.classList.add("hidden")
   })
 })
