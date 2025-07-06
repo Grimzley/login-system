@@ -21,7 +21,12 @@
 
     <form id="edit-form" class="auth-form">
       <h2>Edit Account</h2>
+      <div class="spinner hidden" id="edit-spinner"></div>
       <input type="text" name="username" placeholder="Username" required/>
+      <input type="text" name="firstName" placeholder="First Name" required/>
+      <input type="text" name="lastName" placeholder="Last Name" required/>
+      <input type="text" name="profession" placeholder="Profession" required/>
+      <input type="text" name="city" placeholder="City" required/>
       <button type="submit">Update Account</button>
     </form>
 
@@ -33,7 +38,7 @@
 
   <script src="index.bundle.js"></script>
   <script src="auth.bundle.js"></script>
-  <script src="dashboard.bundle.js"></script>
+  <script type="module" src="dashboard.bundle.js"></script>
   
 </body>
 </html>

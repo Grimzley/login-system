@@ -1,5 +1,6 @@
 import { db, auth } from './index.js'
-import { deleteDoc, doc, updateDoc } from 'firebase/firestore'
+import { userDataPromise } from './auth.js';
+import { doc, updateDoc, deleteDoc } from 'firebase/firestore'
 import { signOut } from 'firebase/auth'
 
 const toggleThemeBtn = document.getElementById("toggle-theme");
@@ -7,6 +8,7 @@ const editForm = document.getElementById("edit-form");
 const deleteForm = document.getElementById("delete-form");
 const showEditBtn = document.getElementById("show-edit");
 const showDeleteBtn = document.getElementById("show-delete");
+const editSpinner = document.getElementById("edit-spinner");
 
 toggleThemeBtn.onclick = () => {
   document.body.classList.toggle("dark");
@@ -22,6 +24,20 @@ showDeleteBtn.onclick = () => {
   editForm.classList.add("hidden");
 };
 
+// Load Existing Data into Form
+userDataPromise.then((data) => {
+  if (data) {
+    editForm.username.value = data.username
+    if (data.firstName) editForm.firstName.value = data.firstName
+    if (data.lastName) editForm.lastName.value = data.lastName
+    if (data.profession) editForm.profession.value = data.profession
+    if (data.city) editForm.city.value = data.city
+  }
+}).catch((err) => {
+  console.error("User not logged in or failed to fetch profile:", err)
+  window.location.replace('./index.html')
+});
+
 // Logout of Account
 const logoutBtn = document.getElementById('logout')
 logoutBtn.addEventListener('click', () => {
@@ -35,13 +51,18 @@ logoutBtn.addEventListener('click', () => {
 // Edit Account
 editForm.addEventListener('submit', (e) => {
   e.preventDefault()
+  editSpinner.classList.remove("hidden")
   let user = auth.currentUser
   let uid = user.uid
   const docRef = doc(db, 'users', uid)
   updateDoc(docRef, {
     username: editForm.username.value,
-  }).then(() => {
-    editForm.reset()
+    firstName: editForm.firstName.value,
+    lastName: editForm.lastName.value,
+    profession: editForm.profession.value,
+    city: editForm.city.value,
+  }).finally(() => {
+    editSpinner.classList.add("hidden")
   })
 })
 

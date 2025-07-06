@@ -41,23 +41,6 @@ function getAuthError(code) {
   }
 }
 
-// Login to Account
-loginForm.addEventListener('submit', (e) => {
-  e.preventDefault()
-  loginFeedback.textContent = ""
-  loginSpinner.classList.remove("hidden")
-  let email = loginForm.email.value
-  let password = loginForm.password.value
-  signInWithEmailAndPassword(auth, email, password).then(() => {
-    window.location.replace("./dashboard.html")
-  }).catch((err) => {
-    loginFeedback.textContent = getAuthError(err.code)
-    loginForm.reset()
-  }).finally(() => {
-    loginSpinner.classList.add("hidden");
-  })
-})
-
 // Create Account
 signupForm.addEventListener('submit', (e) => {
   e.preventDefault()
@@ -80,5 +63,22 @@ signupForm.addEventListener('submit', (e) => {
     signupForm.reset()
   }).finally(() => {
     signupSpinner.classList.add("hidden")
+  })
+})
+
+// Login to Account
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault()
+  loginFeedback.textContent = ""
+  loginSpinner.classList.remove("hidden")
+  let email = loginForm.email.value
+  let password = loginForm.password.value
+  signInWithEmailAndPassword(auth, email, password).then(() => {
+    window.location.replace("./dashboard.html")
+  }).catch((err) => {
+    loginFeedback.textContent = getAuthError(err.code)
+    loginForm.reset()
+  }).finally(() => {
+    loginSpinner.classList.add("hidden");
   })
 })
